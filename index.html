@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Portfolio</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand mx-auto" href="#">Talk to my Mini-Me !!</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Chat Section -->
+    <section id="chat" class="container my-5">
+        <div class="card">
+            <div class="card-body" id="chat-body">
+                <!-- Chat interface goes here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Send Message Section -->
+    <section id="send-message" class="container my-5">
+        <form id="message-form">
+            <div class="form-group">
+                <label for="message-textarea">Send a Message</label>
+                <textarea class="form-control" id="message-textarea" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </section>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">© 2023 Your Name</span>
+            <a href="portfolio.html" class="float-right">Skip to Website</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript to handle chat -->
+    <script>
+        const chatBody = document.querySelector('#chat-body');
+        const messageForm = document.querySelector('#message-form');
+        const messageTextarea = document.querySelector('#message-textarea');
+
+        messageForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const message = messageTextarea.value;
+            // Display user's message
+            chatBody.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+            // Clear the textarea
+            messageTextarea.value = '';
+            // Send the message to the chatbot API
+            sendMessageToAPI(message);
+        });
+
+        function sendMessageToAPI(message) {
+            // Assuming you have a chatbot API that accepts a POST request with a JSON body containing a 'message' property
+            fetch('https://your-chatbot-api.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display chatbot's response
+                chatBody.innerHTML += `<p><strong>Chatbot:</strong> ${data.response}</p>`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>
